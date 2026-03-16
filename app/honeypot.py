@@ -17,10 +17,12 @@ PORT = 8080
 class HoneypotHandler(http.server.SimpleHTTPRequestHandler):
     # Diccionario de firmas de ataque simples
     ATTACK_SIGNATURES = {
-        "SQL_INJECTION": r"(union\s+select|' OR 1=1|--|drop\s+table)",
-        "PATH_TRAVERSAL": r"(\.\./\.\./|/etc/passwd|/windows/system32)",
-        "XSS": r"(<script>|alert\(|onerror=)",
-        "COMMAND_INJECTION": r"(;|\s)&&\s(cat|ls|whoami|net\suser)"
+        "SQL_INJECTION": r"(union\s+select|' OR 1=1|--|drop\s+table|sleep\()",
+        "PATH_TRAVERSAL": r"(\.\./\.\./|/etc/passwd|/windows/system32|boot\.ini|win\.ini)",
+        "XSS": r"(<script>|alert\(|onerror=|onload=|document\.cookie)",
+        "COMMAND_INJECTION": r"(;|\s)&&\s(cat|ls|whoami|net\suser|powershell|cmd\.exe|/bin/sh)",
+        "LOG4SHELL": r"(\$\{jndi:(ldap|rmi|dns):)",
+        "RECONNAISSANCE": r"(\.env|\.git|\.aws/credentials|/.well-known/|/phpmyadmin)"
     }
 
     def do_GET(self):
